@@ -21,9 +21,10 @@ def output():
 #表單輸入內容轉為sql指令
 def select_sql(conditiondic):
 	mydb = mysql.connector.connect(
-		user="root", password="Ccclub_2021_testmysql",
-		host="localhost", database="pyproject"
+		user="user", password="password",
+		host="localhost", database="dbname"
 		)
+	#user、password、database改為本地的mysql資料
 
 	mycursor = mydb.cursor()
 
@@ -37,6 +38,7 @@ def select_sql(conditiondic):
 		condition_query = ''
 	
 	postgres_select_query = f"""SELECT * FROM pyproject.py_demo {condition_query} ORDER BY task_id;"""
+	#pyproject.py_demoe改為本地的mysql_db名稱
 
 	mycursor.execute(postgres_select_query)
 
