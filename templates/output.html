@@ -1,0 +1,37 @@
+{% extends "index".html" %}
+
+{% block title %}看團好朋友{% endblock %}
+
+{% block main %}
+
+  <div class="container">
+    <div class="row align-items-start">
+    <div class="col">
+      <h1>搜尋結果</h1>
+    </div>
+
+    <!-- 將結果紀錄列在下面 -->
+    {% for record in html_show %}
+    <div class="row">
+    <div class="col">
+      <p>{{ record[0] }}<p>
+    </div>
+    <div class="col">
+      <p>{{ record[1] }}<p>
+    </div>
+    <div class="col">
+      <p>{{ record[2] }}<p>
+    </div>
+    <div class="col">
+      <p>{{ record[3] }}<p>
+    </div>
+    <div class="col">
+      <p>{{ record[4] }}<p>
+    </div>
+    </div>
+    {% endfor %}
+    <!-- 將所有草泥馬的訓練紀錄列在上面 -->
+
+  </div>
+
+{% endblock %}
