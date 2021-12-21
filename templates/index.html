@@ -1,13 +1,41 @@
+{% macro easy_option_form(col_name, col_options) -%}
+      <select class="form-control" id="{{ col_name }}" name="{{ col_name }}">
+        <option selected value=''>不選擇</option>
+        {% for col_option in col_options %}
+        <option value="'{{ col_option }}'">{{ col_option }}</option>
+        {% endfor %}
+      </select>
+{%- endmacro %}
 <html>
 <title>看團好朋友</title>
    <body>
 	<h1>看團好朋友</h1>
     <h2>不能喝的好朋友系列</h2>
       <form action = "http://localhost:7000/output" method = "POST">
-         <p>演出者名稱 <input type = "text" name = "player_name" /></p>
-         <p>地區 <input type = "text" name = "area" /></p>
-         <p>演出日期 <input type = "text" name = "start_date" /></p>
-         <p>票價 <input type ="text" name = "price" /></p>
+         <!--<p>演出者名稱 <input type = "text" name = "player_name" /></p>-->
+         <label for="input_example0">演出者名稱</label>
+         {{ easy_option_form("player_name0", uniques) }}
+         {{ easy_option_form("player_name1", uniques) }}
+         {{ easy_option_form("player_name2", uniques) }}
+         {{ easy_option_form("player_name3", uniques) }}
+         {{ easy_option_form("player_name4", uniques) }}
+         <p></p>
+         <label for="input_example">地區</label>
+         <select id="input_example" name="area"> 
+           <option selected value ="default">不選擇</option><br>
+           <option value ="北部">北部</option>
+           <option value ="中部">中部</option>
+           <option value ="南部">南部</option>
+           <option value ="東部">東部</option>
+         </select>
+         <p>演出日期 <input id="date" type="date" name='date_1'> ~ <input id="date" type="date" name='date_2'></p>
+         <label for="input_example2">票價</label>
+         <select id="input_example2" name="price"> 
+            <option selected value ="default">不選擇</option><br>
+            <option value ="1000">1000元以下</option>
+            <option value ="2000">1000~3000元</option>
+            <option value ="3000">3000元以上</option>
+          </select>
          <p><input type = "submit" value = "找音樂祭" /></p>
       </form>
       
