@@ -34,12 +34,14 @@ def output():
 #獲得所有樂團名稱
 def get_unique():
 	mydb = mysql.connector.connect(
-		user="root", password="Ccclub_2021_testmysql",
-		host="localhost", database="pyproject")
+		user="user", password="password",
+		host="localhost", database="dbname"
+		)
+	#user、password、database改為本地的mysql資料
 
 	mycursor = mydb.cursor()
 
-	mycursor.execute("SELECT * FROM pyproject.py_demo")
+	mycursor.execute("SELECT * FROM pyproject.py_demo") #pyproject.py_demo改成本地mysql的db名稱
 	myresult = mycursor.fetchall()
     
 	unique_name=[]
@@ -92,6 +94,7 @@ def select_sql(conditiondic):
 		condition_query = ''
 
 	postgres_select_query = f"""SELECT * FROM pyproject.py_demo {condition_query} ORDER BY task_id;"""
+	#pyproject.py_demo改成本地mysql的db名稱
 	print(postgres_select_query)
 	mycursor.execute(postgres_select_query)
 
