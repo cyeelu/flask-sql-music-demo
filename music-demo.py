@@ -23,6 +23,10 @@ def output():
 		
 		#偷看要傳到output的東西_正式要刪掉
 		print(sql_turn_out(select_sql(request.form)))
+		#例如條件輸入=1976,9m88,Crispy脆樂團,滅火器，輸出為下(可以用來當測資)
+		#[[['9m88', 'Crispy脆樂團', '1976'], '貴人散步', datetime.date(2021, 11, 25), 688, '南部', '台南', 'kktix', ''], 
+		[['滅火器', '9m88'], '大港開唱', datetime.date(2021, 3, 27), 2500, '南部', '高雄', 'indievox', ''], 
+		[['滅火器', '1976'], '爛泥發芽', datetime.date(2022, 1, 1), 800, '北部', '台北', 'indievox', '']]
 		
 		#以下是要把得到的結果output_data輸出到output.html_未完成
 		output_data = sql_turn_out(select_sql(request.form))
