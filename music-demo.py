@@ -15,23 +15,21 @@ def index():
 @app.route('/output',methods = ['POST','GET'])
 def output():
 	if request.method == 'POST':
-		#偷看得到的條件內容
+		#偷看得到的條件內容_正式要刪掉
 		print(request.form)
-		#偷看得到的結果
-		print(select_sql(request.form)) 
+		
+		#偷看sql得到的結果_正式要刪掉
+		print(select_sql(request.form))
+		
+		#偷看要傳到output的東西_正式要刪掉
+		print(sql_turn_out(select_sql(request.form)))
+		
+		#以下是要把得到的結果output_data輸出到output.html_未完成
+		output_data = sql_turn_out(select_sql(request.form))
 
-		#以下是要把得到的結果轉成output.html_未完成
-		input_data = select_sql(request.form)
-		raw_data = {"卡司符合數": [input_data[x][0] for x in range(len(input_data))],"音樂祭名稱": [input_data[x][1] for x in range(len(input_data))], 
-					"開演日期": [input_data[x][2] for x in range(len(input_data))], 
-					"地區": [input_data[x][3] for x in range(len(input_data))], 
-					"票價": [input_data[x][4] for x in range(len(input_data))], 
-					"售票系統": [input_data[x][5] for x in range(len(input_data))]}
-		my_dataframe = pd.DataFrame(raw_data)
-		output.html = pd.DataFrame.to_html(my_dataframe, index=False)
-		return render_template('output.html')  
+		return render_template('output.html')
 
-#獲得所有樂團名稱
+#獲得所有表演者名稱,傳到前端表演者選擇欄位
 def get_unique():
 	mydb = mysql.connector.connect(
 		user="user", password="password",
@@ -50,7 +48,7 @@ def get_unique():
     
 	return sorted(set(unique_name))
 
-#表單輸入內容轉為sql指令
+#表單輸入內容轉為sql指令+輸出選擇結果
 def select_sql(conditiondic):
 	mydb = mysql.connector.connect(
 		user="user", password="password",
@@ -95,7 +93,7 @@ def select_sql(conditiondic):
 
 	postgres_select_query = f"""SELECT * FROM pyproject.py_demo {condition_query} ORDER BY task_id;"""
 	#pyproject.py_demo改成本地mysql的db名稱
-	print(postgres_select_query)
+	
 	mycursor.execute(postgres_select_query)
 
 	table = []
@@ -109,6 +107,29 @@ def select_sql(conditiondic):
 	mycursor.close()
 	return table
 
+#sql選擇結果轉成輸出結果
+def sql_turn_out(lst):
+	lst_new = [1]
+	lst_clear = []
+	fes_player_dic = dict()
+	for i in lst:
+		i = list(i)
+		if i[1] in fes_player_dic:
+			fes_player_dic[i[1]].append(i[2])
+		else:
+			fes_player_dic[i[1]] = [i[2]]
+		i.pop(0)
+		i.pop(1)
+		lst_new.append(i)
+	for i in range(len(lst_new)) :
+		if lst_new[i] == lst_new[i-1] :
+			lst_clear = lst_clear
+		else:
+			lst_clear.append(lst_new[i])
+	lst_clear.pop(0)
+	for i in lst_clear:
+		i.insert(0,fes_player_dic[i[0]])
+	return sorted(lst_clear,reverse=True,key = lambda i:(len(i[0]),i[3]))
 
         
 if __name__ == '__main__':
